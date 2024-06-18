@@ -4,8 +4,9 @@ body{
 #name{
     width:80%;
     left:0;
+    background: #244855;
     border-radius:5px;
-    font-sze:5em;
+    font-size:5em;
 }
 #main{
     height:7px;
