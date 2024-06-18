@@ -1,5 +1,5 @@
 body{
-    font: Quicksand, Arial;
+    font-family: Quicksand, sans-serif;
 }
 #name{
     width:80%;
@@ -7,6 +7,7 @@ body{
     background: #244855;
     border-radius:5px;
     font-size:5em;
+    font-color:#fff;
 }
 #main{
     height:7px;
