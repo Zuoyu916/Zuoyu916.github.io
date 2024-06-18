@@ -1,0 +1,14 @@
+body{
+    font: Quicksand, Arial;
+}
+#name{
+    width:80%;
+    left:0;
+    background: #244855;
+    border-radius:5px;
+    font-size:5em;
+}
+#main{
+    height:7px;
+    background:#000;
+}
