@@ -1,15 +1,26 @@
 body{
     font-family: Quicksand, sans-serif;
-}
-#name{
-    width:80%;
-    left:0;
-    background: #244855;
-    border-radius:5px;
-    font-size:5em;
-    font-color:#fff;
+    background: rgb(175,254,255);
+    background: linear-gradient(158deg, rgba(175,254,255,1) 0%, rgba(100,255,183,1) 47%, rgba(177,255,178,1) 100%);
 }
 #main{
     height:7px;
-    background:#000;
+    background:#ececec;
+    width: 80%;
+    aspect-ratio: 1/2;
+}
+.socialsBar{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+.fa{
+    padding: 20px;
+    font-size: 30px;
+    width: 50px;
+    text-align: center;
+    text-decoration: none;
+    color: black;
 }
