@@ -7,62 +7,70 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script> 
     //For scrolling descriptors
-        document.addEventListener("DOMContentLoaded", () => {
-            const descriptors = document.querySelectorAll(".descriptor");
-            let currentIndex = 0;
-            let startY = 0;
-        
-            // Initial setup: show the first descriptor
+    document.addEventListener("DOMContentLoaded", () => {
+    const descriptors = document.querySelectorAll(".descriptor");
+    const photo = document.getElementById("photo");
+    const photoURL = [
+        "",
+        "./images/1.jpg",
+        "./images/2.png",
+        "./images/3.jpg",
+        ""
+    ]
+    let currentIndex = 0;
+
+    // Initial setup: show the first descriptor
+    descriptors[currentIndex].classList.add("visible");
+
+    let startY = null;
+    let threshold = 80;
+
+    function handleScroll(event) {
+        if (event.deltaY > 0 && currentIndex < descriptors.length - 1) {
+            // Scroll down
+            descriptors[currentIndex].classList.remove("visible");
+            descriptors[currentIndex].classList.add("faded");
+
+            currentIndex++;
             descriptors[currentIndex].classList.add("visible");
-        
-            function handleScroll(event) {
-                if (event.deltaY > 0 && currentIndex < descriptors.length - 1) {
-                    // Scroll down
-                    descriptors[currentIndex].classList.remove("visible");
-                    descriptors[currentIndex].classList.add("faded");
-        
-                    currentIndex++;
-                    descriptors[currentIndex].classList.add("visible");
-                } else if (event.deltaY < 0 && currentIndex > 0) {
-                    // Scroll up
-                    descriptors[currentIndex].classList.remove("visible");
-                    descriptors[currentIndex].classList.remove("faded");
-        
-                    currentIndex--;
-                    if (currentIndex >= 0) {
-                        descriptors[currentIndex].classList.add("visible");
-                        descriptors[currentIndex].classList.remove("faded");
-                    }
-                }
+            photo.src = photoURL[currentIndex];
+        } else if (event.deltaY < 0 && currentIndex > 0) {
+            // Scroll up
+            descriptors[currentIndex].classList.remove("visible");
+            descriptors[currentIndex].classList.remove("faded");
+
+            currentIndex--;
+            if (currentIndex >= 0) {
+                descriptors[currentIndex].classList.add("visible");
+                descriptors[currentIndex].classList.remove("faded");
+                photo.src = photoURL[currentIndex];
             }
-        
-            function handleTouchStart(event) {
-                startY = event.touches[0].clientY;
+        }
+    }
+
+    function handleTouchMove(event) {
+        if (startY === null) {
+            startY = event.touches[0].clientY;
+        } else {
+            const moveY = event.touches[0].clientY;
+            const diffY = startY - moveY;
+
+            if (diffY > threshold) {
+                // Scroll down
+                handleScroll({ deltaY: 1 });
+                startY = moveY; // Update startY for next move
+            } else if (diffY < -threshold) {
+                // Scroll up
+                handleScroll({ deltaY: -1 });
+                startY = moveY; // Update startY for next move
             }
-        
-            function handleTouchMove(event) {
-                if (!startY) {
-                    return;
-                }
-        
-                const moveY = event.touches[0].clientY;
-                const diffY = startY - moveY;
-        
-                if (diffY > 0) {
-                    // Scroll down
-                    handleScroll({ deltaY: 1 });
-                } else {
-                    // Scroll up
-                    handleScroll({ deltaY: -1 });
-                }
-        
-                startY = null; // Reset startY after handling the move
-            }
-        
-            document.querySelector("#me").addEventListener("wheel", handleScroll);
-            document.querySelector("#me").addEventListener("touchstart", handleTouchStart);
-            document.querySelector("#me").addEventListener("touchmove", handleTouchMove);
-        });
+        }
+    }
+
+    document.querySelector("#me").addEventListener("wheel", handleScroll);
+    document.querySelector("#me").addEventListener("touchmove", handleTouchMove);
+});
+ 
     // For Project Mouse Hover
     document.addEventListener("DOMContentLoaded", () => {
         const projects = document.querySelectorAll('.project');
@@ -137,34 +145,59 @@
         }
     </style>
     <style>
-        body{font-family: 'Raleway', sans-serif;background-color: #f5f2eb;}
+        body{font-family: 'Raleway', sans-serif;background-color: #f5f2eb; margin-left: 0;margin-right: 0;}
         /* Intro Page */
-        #bigName{ font-size: 6vw;margin-bottom: 0%;}
-        h1{ font-size: 4vw; color: rgb(88, 49, 12);}
-        h2{ font-size: 3vw; color: rgb(109, 64, 21);}
-        p{font-size: 2.5vw; color: rgb(172, 96, 26);}
-        #me{padding: 10vh 0 0 20vw;min-height: 90vh;}
-        .descriptor{margin-left:5vw;display:none;opacity: 1;}
-        .descriptor.visible {display: block;font-weight: bold;}
-        .descriptor.faded {display: block;opacity: 0.6;}
-        .scroll-container {transition: transform 2ms ease-in-out;}
+        #bigName{ font-size: 6em;margin-bottom: 0%;}
+        h1{ font-size: 4em; color: rgb(88, 49, 12);}
+        h2{ font-size: 3em; color: rgb(109, 64, 21);}
+        p{color: rgb(172, 96, 26);}
+        #me{padding: 5vh 0 0 20vw;min-height: 90vh;}
+        .descriptor{ font-size: 3em !important; margin-left:5vw;display:none;opacity: 1;}
+        .descriptor.visible { font-size: 3em ; display: block;font-weight: bold;}
+        .descriptor.faded { font-size: 3em ; display: block;opacity: 0.6;}
+        .scroll-container {max-height:100%; transition: transform 2s ease-in-out;}
+        #me-photo{margin-top: 5vh;margin-left:5vw;}
+        #photo{border-radius: 40px;max-width: 600px;max-height: 600px;}
 
         /* Projects */
         .projects{display: flex; flex-direction: row;flex-wrap: wrap;  justify-content: center;}
         .project{position: relative; display: inline-block;max-width: 100%; margin: 10px; cursor: pointer;}
-        .project-images{height:50%; overflow: hidden; border-radius: 40px;}
+        .project-images{height:50%; overflow: hidden; border-radius: 40px; max-width: 100%;}
         .front{position: absolute;bottom: 25px;left: 25px;margin: 0;padding: 10px 10px;background-color: #f5f2ebcb;border-radius: 40px;}
         .back{display: block;max-width: 100%;height: auto;}
+
+        /* Contact */
+        #contact{background-color: #dddcda;width: 100%;max-width: 100%; height: 100%;}
+        #socials{display: flex;justify-content: space-around;align-items: center;margin: 0 10vw;}
+        .fa{
+            font-size: 3em;
+            color: #f5f2eb;
+            text-decoration: none;
+            background-color: rgb(194, 170, 148);
+            padding: 10px;
+            border-radius: 10px;
+        }
+        .ruler{
+            width: 100vw;
+            height: 2px;
+            margin-top: 16px;
+            background-color: #92908a41;
+
+        }
     </style>
 </head>
 <body>
     <div id="me">
         <h1 id="bigName">I'm Zuoyu:</h1>
             <div class="scroll-container">
+            <p class= "descriptor" style="margin: 0%;padding: 0%;"></p>
             <p class="descriptor">a student at HCI,</p>
             <p class="descriptor">a web developer (for fun),</p>
             <p class="descriptor">a freelance photographer, </p>
             <p class="descriptor"> and more...</p>
+            </div>
+            <div id="me-photo">
+                <img id='photo' src="">
             </div>
         </div>
     </div>
@@ -172,7 +205,7 @@
     <div class="projects">
         <div class="project">
             <div class="front">
-                <p style="margin: 0; font-size: 1.5vw;">Coastflow</p>
+                <p style="margin: 0; font-size: 1.5em;">Coastflow</p>
             </div>
             <div class="back">
                 <img class="project-images" src="https://placehold.co/800x600" alt="Coastflow logo">
@@ -188,13 +221,23 @@
         </div>        
         <div class="project">
             <div class="front">
-                <p style="margin: 0; font-size: 1.5vw;">Anime Watchlist</p>
+                <p style="margin: 0; font-size: 1.5em;">Anime Watchlist</p>
             </div>
             <div class="back">
                 <img class="project-images" src="https://placehold.co/1600x600" alt="Coastflow logo">
             </div>
         </div>
     </div>
-    <p style="font-size: .8em;">Fang Zuoyu, 2024</p>
+    <div id="contact">
+        <h2 style="margin-left: 10vw;margin-bottom: 2vh;">Contact Me</h2>
+        <div id="socials">
+            <a class="fa fa-linkedin" href="https://www.linkedin.com/in/fang-zuoyu/" target="_blank"></a>
+            <a class="fa fa-github" href="https://github.com/Zuoyu916/" target="_blank"></a>
+            <a class="fa fa-envelope" href="mailto:fangzuoyu@gmail.com"></a>
+            <a class="fa fa-instagram" href="https://www.instagram.com/z.uoyu/" target="_blank"></a>
+        </div>
+        <div class="ruler"></div>
+        <p style="margin-bottom: 0%;margin-left: 10vw;">© 2021 Fang Zuoyu</p>
+    </div>
 </body>
 </html>
