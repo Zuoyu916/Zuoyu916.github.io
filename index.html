@@ -1,10 +1,144 @@
+<!DOCTYPE html>
 <head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <script src="https://unpkg.com/lenis@1.1.3/dist/lenis.min.js"></script> 
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script> 
+    //For scrolling descriptors
+        document.addEventListener("DOMContentLoaded", () => {
+            const descriptors = document.querySelectorAll(".descriptor");
+            let currentIndex = 0;
+            let startY = 0;
+        
+            // Initial setup: show the first descriptor
+            descriptors[currentIndex].classList.add("visible");
+        
+            function handleScroll(event) {
+                if (event.deltaY > 0 && currentIndex < descriptors.length - 1) {
+                    // Scroll down
+                    descriptors[currentIndex].classList.remove("visible");
+                    descriptors[currentIndex].classList.add("faded");
+        
+                    currentIndex++;
+                    descriptors[currentIndex].classList.add("visible");
+                } else if (event.deltaY < 0 && currentIndex > 0) {
+                    // Scroll up
+                    descriptors[currentIndex].classList.remove("visible");
+                    descriptors[currentIndex].classList.remove("faded");
+        
+                    currentIndex--;
+                    if (currentIndex >= 0) {
+                        descriptors[currentIndex].classList.add("visible");
+                        descriptors[currentIndex].classList.remove("faded");
+                    }
+                }
+            }
+        
+            function handleTouchStart(event) {
+                startY = event.touches[0].clientY;
+            }
+        
+            function handleTouchMove(event) {
+                if (!startY) {
+                    return;
+                }
+        
+                const moveY = event.touches[0].clientY;
+                const diffY = startY - moveY;
+        
+                if (diffY > 0) {
+                    // Scroll down
+                    handleScroll({ deltaY: 1 });
+                } else {
+                    // Scroll up
+                    handleScroll({ deltaY: -1 });
+                }
+        
+                startY = null; // Reset startY after handling the move
+            }
+        
+            document.querySelector("#me").addEventListener("wheel", handleScroll);
+            document.querySelector("#me").addEventListener("touchstart", handleTouchStart);
+            document.querySelector("#me").addEventListener("touchmove", handleTouchMove);
+        });
+    // For Project Mouse Hover
+    document.addEventListener("DOMContentLoaded", () => {
+        const projects = document.querySelectorAll('.project');
+
+        function handleResize() {
+            projects.forEach(project => {
+                const frontElement = project.querySelector('.front');
+                if (window.innerWidth < 1000) {
+                    frontElement.style.display = 'block';
+                } else {
+                    frontElement.style.display = 'none';
+                }
+            });
+        }
+
+        function handleMouseOver(event) {
+            const frontElement = event.currentTarget.querySelector('.front');
+            if (window.innerWidth >= 1000) {
+                frontElement.style.display = 'block';
+            }
+        }
+
+        function handleMouseOut(event) {
+            const frontElement = event.currentTarget.querySelector('.front');
+            if (window.innerWidth >= 1000) {
+                frontElement.style.display = 'none';
+            }
+        }
+
+        window.addEventListener('resize', handleResize);
+        projects.forEach(project => {
+            project.addEventListener('mouseover', handleMouseOver);
+            project.addEventListener('mouseout', handleMouseOut);
+        });
+
+        // Initial check
+        handleResize(); });
+    </script>
+    <script> <!-- For Lenis Smooth Scrolling-->
+        const lenis = new Lenis()
+
+        lenis.on('scroll', (e) => {
+        console.log(e)
+        })
+
+        function raf(time) {
+        lenis.raf(time)
+        requestAnimationFrame(raf)
+        }
+
+        requestAnimationFrame(raf)
+    </script>
+    <style>/* Lenis Smooth Scrolling */
+        html.lenis, html.lenis body {
+        height: auto;
+        }
+
+        .lenis.lenis-smooth {
+        scroll-behavior: auto !important;
+        }
+
+        .lenis.lenis-smooth [data-lenis-prevent] {
+        overscroll-behavior: contain;
+        }
+
+        .lenis.lenis-stopped {
+        overflow: hidden;
+        }
+
+        .lenis.lenis-smooth iframe {
+        pointer-events: none;
+        }
+    </style>
     <style>
         body{font-family: 'Raleway', sans-serif;background-color: #f5f2eb;}
+        /* Intro Page */
         #bigName{ font-size: 6vw;margin-bottom: 0%;}
         h1{ font-size: 4vw; color: rgb(88, 49, 12);}
         h2{ font-size: 3vw; color: rgb(109, 64, 21);}
@@ -13,9 +147,14 @@
         .descriptor{margin-left:5vw;display:none;opacity: 1;}
         .descriptor.visible {display: block;font-weight: bold;}
         .descriptor.faded {display: block;opacity: 0.6;}
-        .scroll-container {transition: transform 0.5s ease-in-out;}
+        .scroll-container {transition: transform 2ms ease-in-out;}
 
-        .projects{margin-top: 5%;}
+        /* Projects */
+        .projects{display: flex; flex-direction: row;flex-wrap: wrap;  justify-content: center;}
+        .project{position: relative; display: inline-block;max-width: 100%; margin: 10px; cursor: pointer;}
+        .project-images{height:50%; overflow: hidden; border-radius: 40px;}
+        .front{position: absolute;bottom: 25px;left: 25px;margin: 0;padding: 10px 10px;background-color: #f5f2ebcb;border-radius: 40px;}
+        .back{display: block;max-width: 100%;height: auto;}
     </style>
 </head>
 <body>
@@ -29,81 +168,33 @@
             </div>
         </div>
     </div>
+    <h1 style="margin-bottom: 3px;padding-left: 10vw;">Projects</h1>
     <div class="projects">
-        <h1>Projects</h1>
         <div class="project">
-            <h2>Coastflow</h2>
-            <p>Created website  frontend.</p>
+            <div class="front">
+                <p style="margin: 0; font-size: 1.5vw;">Coastflow</p>
+            </div>
+            <div class="back">
+                <img class="project-images" src="https://placehold.co/800x600" alt="Coastflow logo">
+            </div>
         </div>
         <div class="project">
-            <h2>HCI Computing Talent Program</h2>
-            <p>Trained in various technical software: Machine Learning, Network Security, etc.</p>
-        </div>
+            <div class="front">
+                <p style="margin: 0; font-size: 1.5vw;">Computing Talent Programme</p>
+            </div>
+            <div class="back">
+                <img class="project-images" src="https://placehold.co/800x600" alt="Coastflow logo">
+            </div>
+        </div>        
         <div class="project">
-            <h2>Anime Watchlist Plugin</h2>
-            <p>Coming soon...</p>
+            <div class="front">
+                <p style="margin: 0; font-size: 1.5vw;">Anime Watchlist</p>
+            </div>
+            <div class="back">
+                <img class="project-images" src="https://placehold.co/1600x600" alt="Coastflow logo">
+            </div>
         </div>
-        
     </div>
     <p style="font-size: .8em;">Fang Zuoyu, 2024</p>
 </body>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const descriptors = document.querySelectorAll(".descriptor");
-        let currentIndex = 0;
-        let startY = 0;
-    
-        // Initial setup: show the first descriptor
-        descriptors[currentIndex].classList.add("visible", "bold");
-    
-        function handleScroll(event) {
-            if (event.deltaY > 0 && currentIndex < descriptors.length - 1) {
-                // Scroll down
-                descriptors[currentIndex].classList.remove("bold");
-                descriptors[currentIndex].classList.add("faded");
-    
-                currentIndex++;
-                descriptors[currentIndex].classList.add("visible", "bold");
-            } else if (event.deltaY < 0 && currentIndex > 0) {
-                // Scroll up
-                descriptors[currentIndex].classList.remove("bold", "visible");
-                descriptors[currentIndex].classList.remove("faded");
-    
-                currentIndex--;
-                if (currentIndex >= 0) {
-                    descriptors[currentIndex].classList.add("bold");
-                    descriptors[currentIndex].classList.add("visible");
-                }
-            }
-        }
-    
-        function handleTouchStart(event) {
-            startY = event.touches[0].clientY;
-        }
-    
-        function handleTouchMove(event) {
-            if (!startY) {
-                return;
-            }
-    
-            const moveY = event.touches[0].clientY;
-            const diffY = startY - moveY;
-    
-            if (diffY > 0) {
-                // Scroll down
-                handleScroll({ deltaY: 1 });
-            } else {
-                // Scroll up
-                handleScroll({ deltaY: -1 });
-            }
-    
-            startY = null; // Reset startY after handling the move
-        }
-    
-        document.querySelector("#me").addEventListener("wheel", handleScroll);
-        document.querySelector("#me").addEventListener("touchstart", handleTouchStart);
-        document.querySelector("#me").addEventListener("touchmove", handleTouchMove);
-    });
-    </script>
-    
-    
+</html>
