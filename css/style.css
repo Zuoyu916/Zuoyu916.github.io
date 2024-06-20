@@ -13,10 +13,18 @@ body{
     color: rgb(247, 251, 255);
     display: flex;
     flex-direction: row;
+<<<<<<< HEAD
     font-size: 1em;
 }
 #profilePic{
     width: 100%;
+=======
+    justify-content: space-between;
+    font-size: 1em;
+}
+#profilePic{
+    width: 50%;
+>>>>>>> 706e32fb6914b45e1936399c2df053b6696e25b7
     aspect-ratio: 1/1;
     border-radius: 10px;
     margin: 15% 25px 15% 0;
