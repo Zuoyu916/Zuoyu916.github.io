@@ -1,0 +1,82 @@
+<head>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body{font-family: 'Raleway', sans-serif;background-color: #f5f2eb;}
+        #bigName{ font-size: 6vw;margin-bottom: 0%;}
+        h1{ font-size: 4vw; color: rgb(88, 49, 12);}
+        h2{ font-size: 3vw; color: rgb(109, 64, 21);}
+        p{font-size: 2.5vw; color: rgb(172, 96, 26);}
+        #me{padding: 10vh 0 0 20vw;min-height: 90vh;}
+        .descriptor{margin-left:5vw;display:none;opacity: 1;}
+        .descriptor.visible {display: block;font-weight: bold;}
+        .descriptor.faded {display: block;opacity: 0.6;}
+        .scroll-container {transition: transform 0.5s ease-in-out;}
+
+        .projects{margin-top: 5%;}
+    </style>
+</head>
+<body>
+    <div id="me">
+        <h1 id="bigName">I'm Zuoyu:</h1>
+            <div class="scroll-container">
+            <p class="descriptor">a student at HCI,</p>
+            <p class="descriptor">a web developer (for fun),</p>
+            <p class="descriptor">a freelance photographer, </p>
+            <p class="descriptor"> and more...</p>
+            </div>
+        </div>
+    </div>
+    <div class="projects">
+        <h1>Projects</h1>
+        <div class="project">
+            <h2>Coastflow</h2>
+            <p>Created website  frontend.</p>
+        </div>
+        <div class="project">
+            <h2>HCI Computing Talent Program</h2>
+            <p>Trained in various technical software: Machine Learning, Network Security, etc.</p>
+        </div>
+        <div class="project">
+            <h2>Anime Watchlist Plugin</h2>
+            <p>Coming soon...</p>
+        </div>
+        
+    </div>
+    <p style="font-size: .8em;">Fang Zuoyu, 2024</p>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const descriptors = document.querySelectorAll(".descriptor");
+        let currentIndex = 0;
+    
+        // Initial setup: show the first descriptor
+        descriptors[currentIndex].classList.add("visible");
+    
+        function handleScroll(event) {
+            if (event.deltaY > 0 && currentIndex < descriptors.length - 1) {
+                // Scroll down
+                descriptors[currentIndex].classList.remove("visible");
+                descriptors[currentIndex].classList.add("faded");
+    
+                currentIndex++;
+                descriptors[currentIndex].classList.add("visible");
+            } else if (event.deltaY < 0 && currentIndex > 0) {
+                // Scroll up
+                descriptors[currentIndex].classList.remove("visible","faded");
+    
+                currentIndex--;
+                if (currentIndex >= 0) {
+                    descriptors[currentIndex].classList.add("visible");
+                    descriptors[currentIndex].classList.remove("faded");
+                }
+            }
+        }
+    
+        document.querySelector("#me").addEventListener("wheel", handleScroll);
+    });
+    </script>
+    
+    
