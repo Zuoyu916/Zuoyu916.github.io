@@ -9,27 +9,18 @@
     // For scrolling descriptors
     document.addEventListener("DOMContentLoaded", () => {
         const descriptors = document.querySelectorAll(".descriptor");
-        const photo = document.getElementById("photo");
-        const photoURL = [
-            "",
-            "./images/1.jpg",
-            "./images/2.png",
-            "./images/3.jpg",
-            ""
-        ];
+        const others = document.getElementById("others");
         let currentIndex = 0;
 
         // Initial setup: show the first descriptor
         descriptors[currentIndex].classList.add("visible");
+        others.style.display = "none";
 
         let startY = null;
         let threshold = 60;
 
         function handleScroll(event) {
             let deltaY = event.deltaY;
-
-            // Make sure the scroll delta is large enough to be considered an intentional scroll
-            if (Math.abs(deltaY) < threshold) return;
             if (event.deltaY > 0 && currentIndex < descriptors.length - 1) {
                 // Scroll down
                 descriptors[currentIndex].classList.remove("visible");
@@ -37,17 +28,20 @@
 
                 currentIndex++;
                 descriptors[currentIndex].classList.add("visible");
-                photo.src = photoURL[currentIndex];
+
+                if (currentIndex == descriptors.length - 1) {
+                    others.style.display = "block";
+                }
             } else if (event.deltaY < 0 && currentIndex > 0) {
                 // Scroll up
                 descriptors[currentIndex].classList.remove("visible");
                 descriptors[currentIndex].classList.remove("faded");
+                others.style.display = "none";
 
                 currentIndex--;
                 if (currentIndex >= 0) {
                     descriptors[currentIndex].classList.add("visible");
                     descriptors[currentIndex].classList.remove("faded");
-                    photo.src = photoURL[currentIndex];
                 }
             }
         }
@@ -151,7 +145,7 @@
     <style>
         body{font-family: 'Raleway', sans-serif;background-color: #f5f2eb; margin-left: 0;margin-right: 0; overflow-y: hidden;}
         /* Intro Page */
-        #me{padding: 5vh 0 0 20vw;min-height: 110vh;}
+        #me{padding: 5vh 0 0 20vw;min-height: 30vh;}
         #bigName{ font-size: 6em;margin-bottom: 0%;}
         h1{ font-size: 4em; color: rgb(88, 49, 12);}
         h2{ font-size: 3em; color: rgb(109, 64, 21);}
@@ -160,8 +154,6 @@
         .descriptor.visible { font-size: 3em ; display: block;font-weight: bold;}
         .descriptor.faded { font-size: 3em ; display: block;opacity: 0.6;}
         .scroll-container {max-height:100%; transition: transform 2s ease-in-out;}
-        #me-photo{margin-top: 5vh;margin-left:5vw;}
-        #photo{border-radius: 40px;max-width: 600px;max-height: 600px;}
 
         /* Projects */
         .projects{display: flex; flex-direction: row;flex-wrap: wrap;  justify-content: center;}
@@ -171,7 +163,7 @@
         .back{display: block;max-width: 100%;height: auto;}
 
         /* Contact */
-        #contact{background-color: #dddcda;width: 100%;max-width: 100%; height: 100%;}
+        #contact{background-color: #dddcda;width: 100%;max-width: 100%; height: 100%; padding: 2vh 0;}
         #socials{display: flex;justify-content: space-around;align-items: center;margin: 0 10vw;}
         .fa{
             font-size: 3em;
@@ -193,18 +185,15 @@
 <body>
     <div id="me">
         <h1 id="bigName">I'm Zuoyu:</h1>
-            <div class="scroll-container">
+        <div class="scroll-container">
             <p class= "descriptor" style="margin: 0%;padding: 0%;"></p>
-            <p class="descriptor">a student at HCI,</p>
-            <p class="descriptor">a web developer (for fun),</p>
-            <p class="descriptor">a freelance photographer, </p>
+            <p class="descriptor">A student at HCI,</p>
+            <p class="descriptor">A web developer (for fun),</p>
+            <p class="descriptor">A freelance photographer, </p>
             <p class="descriptor"> and more...</p>
-            </div>
-            <div id="me-photo">
-                <img id='photo' src="">
-            </div>
         </div>
     </div>
+    <div id="others">
     <h1 style="margin-bottom: 3px;padding-left: 10vw;">Projects</h1>
     <div class="projects">
         <div class="project">
@@ -242,6 +231,7 @@
         </div>
         <div class="ruler"></div>
         <p style="margin-bottom: 0%;margin-left: 10vw;">© 2021 Fang Zuoyu</p>
+    </div>
     </div>
 </body>
 </html>
