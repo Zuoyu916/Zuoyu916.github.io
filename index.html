@@ -8,6 +8,7 @@
     <script> 
     // For scrolling descriptors
     document.addEventListener("DOMContentLoaded", () => {
+        const me = document.getElementById("me");
         const descriptors = document.querySelectorAll(".descriptor");
         const others = document.getElementById("others");
         let currentIndex = 0;
@@ -31,12 +32,14 @@
 
                 if (currentIndex == descriptors.length - 1) {
                     others.style.display = "block";
+                    me.style.minHeight = "30vh";
                 }
             } else if (event.deltaY < 0 && currentIndex > 0) {
                 // Scroll up
                 descriptors[currentIndex].classList.remove("visible");
                 descriptors[currentIndex].classList.remove("faded");
                 others.style.display = "none";
+                me.style.minHeight = "100vh";
 
                 currentIndex--;
                 if (currentIndex >= 0) {
@@ -106,6 +109,7 @@
 
         // Initial check
         handleResize(); });
+        
     </script>
     <script> <!-- For Lenis Smooth Scrolling-->
         const lenis = new Lenis()
@@ -144,6 +148,7 @@
     </style>
     <style>
         body{font-family: 'Raleway', sans-serif;background-color: #f5f2eb; margin-left: 0;margin-right: 0; overflow-y: hidden;}
+
         /* Intro Page */
         #me{padding: 5vh 0 0 20vw;min-height: 30vh;}
         #bigName{ font-size: 6em;margin-bottom: 0%;}
@@ -158,6 +163,7 @@
         /* Projects */
         .projects{display: flex; flex-direction: row;flex-wrap: wrap;  justify-content: center;}
         .project{position: relative; display: inline-block;max-width: 100%; margin: 10px; cursor: pointer;}
+        .image-tags{margin: 0; font-size: 1.5vw;font-weight: bold;}
         .project-images{height:50%; overflow: hidden; border-radius: 40px; max-width: 100%;}
         .front{position: absolute;bottom: 25px;left: 25px;margin: 0;padding: 10px 10px;background-color: #f5f2ebcb;border-radius: 40px;}
         .back{display: block;max-width: 100%;height: auto;}
@@ -194,11 +200,11 @@
         </div>
     </div>
     <div id="others">
-    <h1 style="margin-bottom: 3px;padding-left: 10vw;">Projects</h1>
+    <h1 style="margin-bottom: 3px;padding-left: 10vw;">Software Projects</h1>
     <div class="projects">
         <div class="project">
             <div class="front">
-                <p style="margin: 0; font-size: 1.5em;">Coastflow</p>
+                <p class="image-tags">Coastflow</p>
             </div>
             <div class="back">
                 <img class="project-images" src="https://placehold.co/800x600" alt="Coastflow logo">
@@ -206,7 +212,7 @@
         </div>
         <div class="project">
             <div class="front">
-                <p style="margin: 0; font-size: 1.5vw;">Computing Talent Programme</p>
+                <p class="image-tags">Computing Talent Programme</p>
             </div>
             <div class="back">
                 <img class="project-images" src="https://placehold.co/800x600" alt="Coastflow logo">
@@ -214,13 +220,23 @@
         </div>        
         <div class="project">
             <div class="front">
-                <p style="margin: 0; font-size: 1.5em;">Anime Watchlist</p>
+                <p class="image-tags">Anime Watchlist</p>
             </div>
             <div class="back">
-                <img class="project-images" src="https://placehold.co/1600x600" alt="Coastflow logo">
+                <img class="project-images" src="https://placehold.co/1620x600" alt="Coastflow logo">
             </div>
         </div>
     </div>
+    <!-- <div id="photo-gallery">
+        <h1 style="margin-bottom: 3px;padding-left: 10vw;">Photo Gallery</h1> 
+        <div class="carousel-container">
+            <div class="carousel">
+                <img src="https://via.placeholder.com/800x600" alt="Photo 1">
+                <img src="https://via.placeholder.com/800x600" alt="Photo 2">
+                <img src="https://via.placeholder.com/600x800" alt="Photo 3">
+                <img src="https://via.placeholder.com/600x800" alt="Photo 4">
+            </div>
+        </div> -->
     <div id="contact">
         <h2 style="margin-left: 10vw;margin-bottom: 2vh;">Contact Me</h2>
         <div id="socials">
