@@ -6,70 +6,74 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script> 
-    //For scrolling descriptors
+    // For scrolling descriptors
     document.addEventListener("DOMContentLoaded", () => {
-    const descriptors = document.querySelectorAll(".descriptor");
-    const photo = document.getElementById("photo");
-    const photoURL = [
-        "",
-        "./images/1.jpg",
-        "./images/2.png",
-        "./images/3.jpg",
-        ""
-    ]
-    let currentIndex = 0;
+        const descriptors = document.querySelectorAll(".descriptor");
+        const photo = document.getElementById("photo");
+        const photoURL = [
+            "",
+            "./images/1.jpg",
+            "./images/2.png",
+            "./images/3.jpg",
+            ""
+        ];
+        let currentIndex = 0;
 
-    // Initial setup: show the first descriptor
-    descriptors[currentIndex].classList.add("visible");
+        // Initial setup: show the first descriptor
+        descriptors[currentIndex].classList.add("visible");
 
-    let startY = null;
-    let threshold = 50;
+        let startY = null;
+        let threshold = 60;
 
-    function handleScroll(event) {
-        if (event.deltaY > 0 && currentIndex < descriptors.length - 1) {
-            // Scroll down
-            descriptors[currentIndex].classList.remove("visible");
-            descriptors[currentIndex].classList.add("faded");
+        function handleScroll(event) {
+            let deltaY = event.deltaY;
 
-            currentIndex++;
-            descriptors[currentIndex].classList.add("visible");
-            photo.src = photoURL[currentIndex];
-        } else if (event.deltaY < 0 && currentIndex > 0) {
-            // Scroll up
-            descriptors[currentIndex].classList.remove("visible");
-            descriptors[currentIndex].classList.remove("faded");
-
-            currentIndex--;
-            if (currentIndex >= 0) {
-                descriptors[currentIndex].classList.add("visible");
-                descriptors[currentIndex].classList.remove("faded");
-                photo.src = photoURL[currentIndex];
-            }
-        }
-    }
-
-    function handleTouchMove(event) {
-        if (startY === null) {
-            startY = event.touches[0].clientY;
-        } else {
-            const moveY = event.touches[0].clientY;
-            const diffY = startY - moveY;
-
-            if (diffY > threshold) {
+            // Make sure the scroll delta is large enough to be considered an intentional scroll
+            if (Math.abs(deltaY) < threshold) return;
+            if (event.deltaY > 0 && currentIndex < descriptors.length - 1) {
                 // Scroll down
-                handleScroll({ deltaY: 1 });
-                startY = moveY; // Update startY for next move
-            } else if (diffY < -threshold) {
+                descriptors[currentIndex].classList.remove("visible");
+                descriptors[currentIndex].classList.add("faded");
+
+                currentIndex++;
+                descriptors[currentIndex].classList.add("visible");
+                photo.src = photoURL[currentIndex];
+            } else if (event.deltaY < 0 && currentIndex > 0) {
                 // Scroll up
-                handleScroll({ deltaY: -1 });
-                startY = moveY; // Update startY for next move
+                descriptors[currentIndex].classList.remove("visible");
+                descriptors[currentIndex].classList.remove("faded");
+
+                currentIndex--;
+                if (currentIndex >= 0) {
+                    descriptors[currentIndex].classList.add("visible");
+                    descriptors[currentIndex].classList.remove("faded");
+                    photo.src = photoURL[currentIndex];
+                }
             }
         }
-    }
 
-    document.querySelector("#me").addEventListener("wheel", handleScroll);
-    document.querySelector("#me").addEventListener("touchmove", handleTouchMove);
-});
+        function handleTouchMove(event) {
+            if (startY === null) {
+                startY = event.touches[0].clientY;
+            } else {
+                const moveY = event.touches[0].clientY;
+                const diffY = startY - moveY;
+
+                if (diffY > threshold) {
+                    // Scroll down
+                    handleScroll({ deltaY: threshold });
+                    startY = moveY; // Update startY for next move
+                } else if (diffY < -threshold) {
+                    // Scroll up
+                    handleScroll({ deltaY: -threshold });
+                    startY = moveY; // Update startY for next move
+                }
+            }
+        }
+
+        document.querySelector("#me").addEventListener("wheel", handleScroll);
+        document.querySelector("#me").addEventListener("touchmove", handleTouchMove);
+    });
  
     // For Project Mouse Hover
     document.addEventListener("DOMContentLoaded", () => {
@@ -145,13 +149,13 @@
         }
     </style>
     <style>
-        body{font-family: 'Raleway', sans-serif;background-color: #f5f2eb; margin-left: 0;margin-right: 0;}
+        body{font-family: 'Raleway', sans-serif;background-color: #f5f2eb; margin-left: 0;margin-right: 0; overflow-y: hidden;}
         /* Intro Page */
+        #me{padding: 5vh 0 0 20vw;min-height: 110vh;}
         #bigName{ font-size: 6em;margin-bottom: 0%;}
         h1{ font-size: 4em; color: rgb(88, 49, 12);}
         h2{ font-size: 3em; color: rgb(109, 64, 21);}
         p{color: rgb(172, 96, 26);}
-        #me{padding: 5vh 0 0 20vw;min-height: 90vh;}
         .descriptor{ font-size: 3em !important; margin-left:5vw;display:none;opacity: 1;}
         .descriptor.visible { font-size: 3em ; display: block;font-weight: bold;}
         .descriptor.faded { font-size: 3em ; display: block;opacity: 0.6;}
@@ -178,7 +182,7 @@
             border-radius: 10px;
         }
         .ruler{
-            width: 100vw;
+            width: 100%;
             height: 2px;
             margin-top: 16px;
             background-color: #92908a41;
