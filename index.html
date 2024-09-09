@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <head>
     <title>Zuoyu</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- For responsiveness -->
     <script src="https://unpkg.com/lenis@1.1.3/dist/lenis.min.js"></script>
     <script> <!-- For Lenis Smooth Scrolling-->
         const lenis = new Lenis()
@@ -38,38 +39,7 @@
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Lexend+Exa:wght@100..900&display=swap" rel="stylesheet">
-    <style>
-        :root{
-        --primary-color:#202020;
-        --ivory: #fffffff1;
-        --fog: #616161;
-        }
-        body{background-color: var(--primary-color);font-family: 'Lexend Exa', sans-serif;margin: 0;padding: 0;color:var(--ivory);overflow: hidden;}
-        nav{position:sticky; top:0; display:flex; justify-content:space-between; align-items: center; background-color: var(--primary-color);padding: 2vh;z-index: 2;overflow: hidden;}
-        .nav_inside{padding: 8px;margin: 0 5px;}
-        #contact{border: 2px solid var(--ivory);}
-        #v{position: absolute;width: 2px;height: 100vh;background-color: var(--fog);left: 5%;}
-        #v2{position: absolute;width: 2px;height: 100vh;background-color: var(--fog);left: calc(5% + 4px);}
-        #root{background-color: transparent;padding: 0;}
-        .name{color: var(--ivory);font-size: 10em;text-align: center;margin:0;}
-        #O{color: transparent;-webkit-text-stroke: 3px var(--ivory);}
-        #details{width: 100%;display:flex;align-items:center;justify-content: center;}
-        #details-text{font-size: 1.2em;}
-        #line{width: 95%;height: 2px;background-color: var(--fog);translate: 6%;}
-        .project{width: 100%;height: 20vh;margin: 2vh 6% 0;}
-    </style>
-    <script>
-        function white(x){
-            if (x.style.backgroundColor == 'transparent'){
-            x.style.backgroundColor = "var(--ivory)";
-            x.style.color = "#202020";
-            setTimeout(function(){x.style.backgroundColor = 'transparent';x.style.color = "var(--ivory)";}, 1000);
-            }
-            else{
-                x.style.backgroundColor = 'transparent';
-                x.style.color = "var(--ivory)";
-            }}
-    </script>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <nav>
@@ -77,26 +47,43 @@
             <a class="nav_inside">About</a>
             <a class="nav_inside">Work</a>
         </div>
-            <a class="nav_inside" id="contact" onmouseover="white(this)">Contact</a>
+        <a class="nav_inside" id="contact" onmouseover="white(this)" href="#footer">Contact</a>
     </nav>
-    <div id="v"></div>
-    <div id="v-anim"></div>
-    <div id="v2"></div>
     <div id="root">
         <h1 class="name">ZU<span id="O">O</span>YU</h1>
         <div id="details">
-            <h2 id="details-text">Student • Developer • Photographer • Entrepreneur</h2>
+            <marquee behavior="scroll" loop="infinite" direction="left" scrollamount="5" style="width: 100%;" >
+                <h2 id="details-text">Student • Developer • Photographer • Entrepreneur • Student • Developer • Photographer • Entrepreneur • Student • Developer • Photographer • Entrepreneur • </h2>
+            </marquee>
         </div>
-        <div id="line"></div>
+        <div style="height: 70vh;"></div>
         <div class="project">
-            <h2>HCI Computing Talent Programme</h2>
+            <div class="subproject" style="grid-column: 1/ span 2;">
+                <h2>Project 1</h2>
+            </div>
+            <div class="subproject" style="grid-column: 3; grid-row: 1/ span 2;">
+                <h2>Project 2</h2>
+            </div>
+            <div class="subproject">
+                <h2>Project 3</h2>
+            </div>
+            <div class="subproject">
+                <h2>Project 4</h2>
+            </div> 
         </div>
-        <div class="project">
-            <h2>HCI Computing Talent Programme</h2>
-        </div>
-        <div class="project">
-            <h2>HCI Computing Talent Programme</h2>
-        </div>
+        <div style="height: 20vh;"></div>
     </div>
+    <footer id="footer">
+        <div id="bottom_foot">
+            <a href="https://www.linkedin.com/in/your-profile" target="_blank"><img src="linkedin.png" alt="LinkedIn"></a>
+            <a href="https://www.github.com/your-profile" target="_blank"><img src="github.png" alt="GitHub"></a>
+            <a href="https://www.twitter.com/your-profile" target="_blank"><img src="twitter.png" alt="Twitter"></a>
+        </div>
+        <div id="up" onclick=up()>
+            <svg width="20" height="20" xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" style="fill: var(--ivory);">
+                <path d="M11 2.206l-6.235 7.528-.765-.645 7.521-9 7.479 9-.764.646-6.236-7.53v21.884h-1v-21.883z"/>
+            </svg>
+        </div>
+    </footer>
 </body>
 </html>
